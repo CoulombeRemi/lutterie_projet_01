@@ -1,0 +1,10 @@
+#N canvas 794 305 624 500 12;
+#X obj 94 209 hidio;
+#X msg 119 108 open 0x046d 0xc214;
+#X msg 169 167 info;
+#X msg 218 228 devices;
+#X msg 299 278 elements;
+#X connect 1 0 0 0;
+#X connect 2 0 0 0;
+#X connect 3 0 0 0;
+#X connect 4 0 0 0;
