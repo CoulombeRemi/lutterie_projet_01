@@ -4,7 +4,7 @@
 const int SENSOR = 0x53; // adress du accelerometre
 const int POWER_CTL = 0x2D; // adress du register
 const int XAXIS = 0x32; // adress du data X-axis
-const int OFSX = 0x1E;
+const int OFSX = 0x1E; // valeur ofset pour calibration
 const int OFSY = 0x1F;
 const int OFSZ = 0x20;
 
