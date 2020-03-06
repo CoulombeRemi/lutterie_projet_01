@@ -15,7 +15,7 @@ byte values[6]; // 6 valeurs car on a 2x les datas pour les axes
 char serialOutput[512];
 
 float x_f, y_f, z_f; // variable output du sensor
-int x_i, y_i, z_i;
+int x_i_msb, y_i_msb, z_i_msb, x_i_lsb, y_i_lsb, z_i_lsb;
 float x1, x2, y1, y2, z1, z2;
 
 int xx, xx2, xx3;
@@ -36,8 +36,7 @@ void setup() {
   Wire.endTransmission();
   delay(10);
 
-  calibration();
-  //Serial.write(255);
+  //calibration();
 }
 
 void loop() {
@@ -56,57 +55,46 @@ void loop() {
   z_f = (Wire.read() | Wire.read()<<8);
   z_f = z_f/256;
 */
-x1 = Wire.read();
-x2 = Wire.read()<<8;
-y1 = Wire.read();
-y2 = Wire.read()<<8;
-z1 = Wire.read();
-z2 = Wire.read()<<8;
-  //xx = Wire.read(); // 1 octet
-  //xx2 = Wire.read(); // 1 deuxieme octet
-  //xx3 = xx | xx2<<8;
-/*
-  Serial.print("xx= ");
-  Serial.print(xx);
-  Serial.print("    xx2= ");
-  Serial.print(xx2);
-  Serial.print("    xx3= ");
-  Serial.print(xx3);
-  Serial.print("\n");
-*/
-  //SLIPSerialWrite(xx);
-  //SLIPSerialWrite(xx2);
-  // conversion des donnees en int
-  /*x_i = static_cast<int>(x_f);
-  y_i = static_cast<int>(y_f);
-  z_i = static_cast<int>(z_f);
- 
+  x1 = Wire.read();
+  x2 = Wire.read()<<8;
+  y1 = Wire.read();
+  y2 = Wire.read()<<8;
+  z1 = Wire.read();
+  z2 = Wire.read()<<8;
+
   Serial.print("X= ");
-  Serial.print(x_i);
+  Serial.print(x1);
   Serial.print(" Y= ");
-  Serial.print(y_i);
+  Serial.print(y1);
   Serial.print(" Z= ");
-  Serial.print(z_i);
+  Serial.print(z1);
   Serial.print("\n");
-*/
 
-  x_i = static_cast<int>(x1);
-  y_i = static_cast<int>(y1);
-  z_i = static_cast<int>(z1);
- /* Serial.write(x_i);
-  Serial.write(y_i);
-  Serial.write(z_i);*/
+  if(x1 > 255){
+    Serial.print("\n\n HELP! \n\n");
+  }
+  
+  // conversion en int
+  x_i_msb = static_cast<int>(x1);
+  x_i_msb = static_cast<int>(x1);
+  y_i_msb = static_cast<int>(y1);
+  y_i_msb = static_cast<int>(y1);
+  z_i_msb = static_cast<int>(z1);
+  z_i_msb = static_cast<int>(z1);
 
-  SLIPSerialWrite(x_i);
-  SLIPSerialWrite(y_i);
-  SLIPSerialWrite(z_i);
+  // envoie au serial port
+  SLIPSerialWrite(x_i_msb);
+  SLIPSerialWrite(x_i_lsb);
+  SLIPSerialWrite(y_i_msb);
+  SLIPSerialWrite(y_i_lsb);
+  SLIPSerialWrite(z_i_msb);
+  SLIPSerialWrite(z_i_lsb);
 
   Serial.write(END);
   delay(2);
 }
 
 void sendToSerial(int x, int y, int z){
-  //Serial.write(x);
 }
 
 void calibration(){  
