@@ -1,0 +1,62 @@
+#N canvas 1033 174 745 546 12;
+#X obj 387 479 dac~;
+#X obj 381 453 *~;
+#X obj 413 453 *~;
+#X obj 458 413 line~;
+#X obj 461 368 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -258113
+-4032 -4032 0 1;
+#X msg 458 391 \$1 50;
+#N canvas 600 386 450 300 bandpass 0;
+#X obj 84 45 inlet~ input;
+#X obj 187 47 inlet frq;
+#X obj 286 43 inlet q;
+#X obj 161 177 outlet~;
+#X obj 160 153 bp~ 100;
+#X connect 0 0 4 0;
+#X connect 1 0 4 1;
+#X connect 2 0 4 2;
+#X connect 4 0 3 0;
+#X restore 365 216 pd bandpass;
+#X obj 279 178 303~;
+#X floatatom 244 140 5 20 20000 2 Freq - -;
+#X floatatom 311 137 5 0 100 2 filter - -;
+#X obj 62 50 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0 1
+;
+#X obj 62 70 metro 150;
+#X obj 62 120 + 20;
+#X obj 62 94 random 100;
+#X floatatom 403 166 5 0 20000 0 - - -;
+#X floatatom 462 165 5 0 3 0 - - -;
+#X obj 76 336 hid_control;
+#X obj 76 317 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X floatatom 45 367 5 0 0 0 - - -;
+#X floatatom 107 371 5 0 0 0 - - -;
+#X floatatom 154 371 5 0 0 0 - - -;
+#X obj 113 289 hradio 15 1 0 8 empty empty device_num._0-7 0 -8 0 10
+-262144 -1 -1 6;
+#X obj 150 317 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X connect 1 0 0 0;
+#X connect 2 0 0 1;
+#X connect 3 0 1 1;
+#X connect 3 0 2 1;
+#X connect 4 0 5 0;
+#X connect 5 0 3 0;
+#X connect 6 0 1 0;
+#X connect 6 0 2 0;
+#X connect 7 0 6 0;
+#X connect 8 0 7 0;
+#X connect 9 0 7 1;
+#X connect 10 0 11 0;
+#X connect 11 0 13 0;
+#X connect 12 0 8 0;
+#X connect 13 0 12 0;
+#X connect 14 0 6 1;
+#X connect 15 0 6 2;
+#X connect 16 0 18 0;
+#X connect 16 1 19 0;
+#X connect 16 2 20 0;
+#X connect 17 0 16 0;
+#X connect 21 0 16 1;
+#X connect 22 0 16 2;
