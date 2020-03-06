@@ -1,4 +1,4 @@
-#N canvas 493 310 746 577 12;
+#N canvas 340 85 746 577 12;
 #X obj 94 209 hidio;
 #X msg 95 20 open 0x046d 0xc214;
 #X msg 122 96 info;
@@ -113,7 +113,7 @@ type vendorID productID serial version, f 99;
 #X restore 126 240 pd device info;
 #X obj 221 222 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
 1;
-#X obj 62 166 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+#X obj 62 166 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
 1;
 #X floatatom 173 97 5 0 0 0 - - -;
 #X msg 173 120 open \$1;
@@ -138,7 +138,7 @@ type vendorID productID serial version, f 99;
 #X obj 94 350 route absolute button;
 #X obj 508 223 unpack symbol;
 #X symbolatom 508 251 15 0 0 1 - - -;
-#N canvas 407 293 674 450 btn-output 0;
+#N canvas 1046 111 674 450 btn-output 0;
 #X floatatom 110 218 5 0 0 3 _1 - -;
 #X obj 119 143 inlet;
 #X obj 119 167 route button_1 button_2 button_3 button_4 button_5 button_6
@@ -153,6 +153,18 @@ button_7 button_8 button_9 button_10 button_11;
 #X floatatom 451 225 5 0 0 3 _9 - -;
 #X floatatom 498 225 5 0 0 3 _10 - -;
 #X floatatom 553 226 5 0 0 3 _11 - -;
+#X obj -1 279 outlet _1;
+#X obj 28 306 outlet _2;
+#X obj 68 334 outlet _3;
+#X obj 124 306 outlet _4;
+#X obj 162 331 outlet _5;
+#X obj 217 304 outlet _6;
+#X obj 265 332 outlet _7;
+#X obj 322 303 outlet _8;
+#X obj 368 334 outlet _9;
+#X obj 418 306 outlet _10;
+#X obj 492 331 outlet _11;
+#X connect 0 0 13 0;
 #X connect 1 0 2 0;
 #X connect 2 0 0 0;
 #X connect 2 1 3 0;
@@ -165,14 +177,48 @@ button_7 button_8 button_9 button_10 button_11;
 #X connect 2 8 10 0;
 #X connect 2 9 11 0;
 #X connect 2 10 12 0;
+#X connect 3 0 14 0;
+#X connect 4 0 15 0;
+#X connect 5 0 16 0;
+#X connect 6 0 17 0;
+#X connect 7 0 18 0;
+#X connect 8 0 19 0;
+#X connect 9 0 20 0;
+#X connect 10 0 21 0;
+#X connect 11 0 22 0;
+#X connect 12 0 23 0;
 #X restore 335 389 pd btn-output;
-#X f 15;
+#X f 31;
 #X obj 24 110 inlet bng;
 #X obj 92 430 outlet x;
 #X obj 142 465 outlet y;
 #X obj 192 430 outlet z;
 #X obj 242 70 inlet deviceNum;
 #X obj 444 32 inlet decices;
+#X obj 338 423 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 358 422 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 379 424 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 405 425 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 430 425 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 447 425 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 467 424 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 488 426 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 514 427 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 546 421 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 304 478 send start-stop;
+#X obj 306 438 sel 1;
+#X obj 307 414 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
 #X connect 0 0 14 0;
 #X connect 0 0 17 0;
 #X connect 0 1 5 0;
@@ -195,6 +241,19 @@ button_7 button_8 button_9 button_10 button_11;
 #X connect 16 0 15 0;
 #X connect 16 1 19 0;
 #X connect 17 0 18 0;
+#X connect 19 0 38 0;
+#X connect 19 1 26 0;
+#X connect 19 2 27 0;
+#X connect 19 3 28 0;
+#X connect 19 4 29 0;
+#X connect 19 5 30 0;
+#X connect 19 6 31 0;
+#X connect 19 7 32 0;
+#X connect 19 8 33 0;
+#X connect 19 9 34 0;
+#X connect 19 10 35 0;
 #X connect 20 0 7 0;
 #X connect 24 0 8 0;
 #X connect 25 0 3 0;
+#X connect 37 0 36 0;
+#X connect 38 0 37 0;
