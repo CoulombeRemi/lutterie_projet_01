@@ -11,8 +11,6 @@ const int XAXIS = 0x32; // adress du data X-axis
 const int OFSX = 0x1E; // valeur ofset pour calibration
 const int OFSY = 0x1F;
 const int OFSZ = 0x20;
-byte values[6]; // 6 valeurs car on a 2x les datas pour les axes
-char serialOutput[512];
 
 float x_f, y_f, z_f; // variable output du sensor
 int x_i_msb, y_i_msb, z_i_msb, x_i_lsb, y_i_lsb, z_i_lsb;
@@ -45,9 +43,7 @@ void loop() {
  // Wire.endTransmission(false);
   Wire.endTransmission(false);
   Wire.requestFrom(SENSOR, 6, true); // on demande les valeurs des 6 axes a partir de xAxis
-  //Wire.requestFrom(SENSOR, 2, true);
   // Resolution de 10bit --> 2oct
-  //Serial.write(Wire.read());
   /*x_f = (Wire.read() | Wire.read()<<8);
   x_f = x_f/256;
   y_f = (Wire.read() | Wire.read()<<8);
@@ -62,6 +58,14 @@ void loop() {
   z1 = Wire.read();
   z2 = Wire.read()<<8;
 
+  /*
+  x1 /= 256;
+  x2 /= 256;
+  y1 /= 256;
+  y2 /= 256;
+  z1 /= 256;
+  z2 /= 256;
+*/
   Serial.print("X= ");
   Serial.print(x1);
   Serial.print(" Y= ");
@@ -76,19 +80,19 @@ void loop() {
   
   // conversion en int
   x_i_msb = static_cast<int>(x1);
-  x_i_msb = static_cast<int>(x1);
+  x_i_lsb = static_cast<int>(x2);
   y_i_msb = static_cast<int>(y1);
-  y_i_msb = static_cast<int>(y1);
+  y_i_lsb = static_cast<int>(y2);
   z_i_msb = static_cast<int>(z1);
-  z_i_msb = static_cast<int>(z1);
+  z_i_lsb = static_cast<int>(z2);
 
   // envoie au serial port
-  SLIPSerialWrite(x_i_msb);
-  SLIPSerialWrite(x_i_lsb);
-  SLIPSerialWrite(y_i_msb);
-  SLIPSerialWrite(y_i_lsb);
-  SLIPSerialWrite(z_i_msb);
-  SLIPSerialWrite(z_i_lsb);
+  SLIPSerialWrite(static_cast<int>(x1));
+  SLIPSerialWrite(static_cast<int>(x2));
+  SLIPSerialWrite(static_cast<int>(y1));
+  SLIPSerialWrite(static_cast<int>(y2));
+  SLIPSerialWrite(static_cast<int>(z1));
+  SLIPSerialWrite(static_cast<int>(z2));
 
   Serial.write(END);
   delay(2);
