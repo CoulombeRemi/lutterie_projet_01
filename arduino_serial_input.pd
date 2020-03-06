@@ -60,7 +60,7 @@
 #X connect 4 0 1 1;
 #X restore 162 173 pd BS;
 #X floatatom 162 197 5 0 0 0 - - -;
-#X obj 33 91 comport \$1 9600;
+#X obj 33 91 comport \$1 115200;
 #X connect 0 0 13 0;
 #X connect 1 0 13 0;
 #X connect 2 0 4 0;
