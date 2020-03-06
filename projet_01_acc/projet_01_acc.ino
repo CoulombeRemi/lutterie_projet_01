@@ -11,6 +11,8 @@ const int OFSZ = 0x20;
 float x_f, y_f, z_f; // variable output du sensor
 int x_i, y_i, z_i;
 
+  int xx, xx2, xx3;
+
 void setup() {
   Serial.begin(115200);
   Wire.begin();
@@ -28,26 +30,43 @@ void setup() {
   delay(10);
 
   calibration();
+
 }
 
 void loop() {
   Wire.beginTransmission(SENSOR);
   Wire.write(XAXIS);
-  Wire.endTransmission(false);
-  Wire.requestFrom(SENSOR, 6, true); // on demande les valeurs des 6 axes a partir de xAxis
+ // Wire.endTransmission(false);
+ Wire.endTransmission();
+  //Wire.requestFrom(SENSOR, 6, true); // on demande les valeurs des 6 axes a partir de xAxis
+  Wire.requestFrom(SENSOR, 2);
+  // Resolution de 10bit --> 2oct
   //Serial.write(Wire.read());
-  x_f = (Wire.read() | Wire.read()<<8);
+  //x_f = (Wire.read() | Wire.read()<<8);
   //x = x/256;
-  y_f = (Wire.read() | Wire.read()<<8);
+  //y_f = (Wire.read() | Wire.read()<<8);
   //y = y/256;
-  z_f = (Wire.read() | Wire.read()<<8);
+  //z_f = (Wire.read() | Wire.read()<<8);
   //z = z/256;
 
+  xx = Wire.read(); // 1 octet
+  xx2 = Wire.read(); // 1 deuxieme octet
+  xx3 = xx | xx2<<8;
+
+  Serial.print("xx= ");
+  Serial.print(xx);
+  Serial.print("    xx2= ");
+  Serial.print(xx2);
+  Serial.print("    xx3= ");
+  Serial.print(xx3);
+  Serial.print("\n");
+
+
   // conversion des donnees en int
-  x_i = static_cast<int>(x_f);
-  y_i = static_cast<int>(y_f);
-  z_i = static_cast<int>(z_f);
-  /*
+  //x_i = static_cast<int>(x_f);
+  //y_i = static_cast<int>(y_f);
+  //z_i = static_cast<int>(z_f);
+ /* 
   Serial.print("X= ");
   Serial.print(x_i);
   Serial.print(" Y= ");
@@ -56,10 +75,14 @@ void loop() {
   Serial.print(z_i);
   Serial.print("\n");
 */
-  Serial.write(x_i);
+  /*Serial.write(x_i);
   Serial.write(y_i);
-  Serial.write(z_i);
+  Serial.write(z_i);*/
   delay(2);
+}
+
+void sendToSerial(int x, int y, int z){
+  Serial.write(x);
 }
 
 void calibration(){  
