@@ -14,7 +14,7 @@ const int OFSZ = 0x20;
 
 float x_f, y_f, z_f; // variable output du sensor
 int x_i_msb, y_i_msb, z_i_msb, x_i_lsb, y_i_lsb, z_i_lsb;
-float x1, x2, y1, y2, z1, z2;
+char x1, x2, y1, y2, z1, z2;
 
 int xx, xx2, xx3;
 
@@ -52,11 +52,11 @@ void loop() {
   z_f = z_f/256;
 */
   x1 = Wire.read();
-  x2 = Wire.read()<<8;
+  x2 = Wire.read();
   y1 = Wire.read();
-  y2 = Wire.read()<<8;
+  y2 = Wire.read();
   z1 = Wire.read();
-  z2 = Wire.read()<<8;
+  z2 = Wire.read();
 
   /*
   x1 /= 256;
@@ -65,7 +65,7 @@ void loop() {
   y2 /= 256;
   z1 /= 256;
   z2 /= 256;
-*/
+*//*
   Serial.print("X= ");
   Serial.print(x1);
   Serial.print(" Y= ");
@@ -77,22 +77,22 @@ void loop() {
   if(x1 > 255){
     Serial.print("\n\n HELP! \n\n");
   }
-  
+  */
   // conversion en int
-  x_i_msb = static_cast<int>(x1);
+ /*x_i_msb = static_cast<int>(x1);
   x_i_lsb = static_cast<int>(x2);
   y_i_msb = static_cast<int>(y1);
   y_i_lsb = static_cast<int>(y2);
   z_i_msb = static_cast<int>(z1);
   z_i_lsb = static_cast<int>(z2);
-
+*/
   // envoie au serial port
-  SLIPSerialWrite(static_cast<int>(x1));
-  SLIPSerialWrite(static_cast<int>(x2));
-  SLIPSerialWrite(static_cast<int>(y1));
-  SLIPSerialWrite(static_cast<int>(y2));
-  SLIPSerialWrite(static_cast<int>(z1));
-  SLIPSerialWrite(static_cast<int>(z2));
+  SLIPSerialWrite(x1);
+  SLIPSerialWrite(x2);
+  SLIPSerialWrite(y1);
+  SLIPSerialWrite(y2);
+  SLIPSerialWrite(z1);
+  SLIPSerialWrite(z2);
 
   Serial.write(END);
   delay(2);
