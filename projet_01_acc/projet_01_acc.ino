@@ -1,11 +1,11 @@
 
 #include <Wire.h>
-const int END=192;
-const int ESC=219; 
-const int ESC_END=220;
-const int ESC_ESC=221;
+const int END = 192;
+const int ESC = 219; 
+const int ESC_END = 220;
+const int ESC_ESC = 221;
 
-const int SENSOR = 0x53; // adress du accelerometre
+const int SENSOR = 0x53; // adress du sensor
 const int POWER_CTL = 0x2D; // adress du register
 const int XAXIS = 0x32; // adress du data X-axis
 const int OFSX = 0x1E; // valeur ofset pour calibration
@@ -33,24 +33,17 @@ void setup() {
   Wire.write(8); // le sensor s'allume
   Wire.endTransmission();
   delay(10);
-
   //calibration();
 }
 
 void loop() {
   Wire.beginTransmission(SENSOR);
   Wire.write(XAXIS);
- // Wire.endTransmission(false);
   Wire.endTransmission(false);
-  Wire.requestFrom(SENSOR, 6, true); // on demande les valeurs des 6 axes a partir de xAxis
-  // Resolution de 10bit --> 2oct
-  /*x_f = (Wire.read() | Wire.read()<<8);
-  x_f = x_f/256;
-  y_f = (Wire.read() | Wire.read()<<8);
-  y_f = y_f/256;
-  z_f = (Wire.read() | Wire.read()<<8);
-  z_f = z_f/256;
-*/
+  // on demande les valeurs des 6 axes a partir de xAxis
+  Wire.requestFrom(SENSOR, 6, true); 
+  // i2c : MSB first
+  // output en two's complement
   x1 = Wire.read();
   x2 = Wire.read();
   y1 = Wire.read();
@@ -58,34 +51,6 @@ void loop() {
   z1 = Wire.read();
   z2 = Wire.read();
 
-  /*
-  x1 /= 256;
-  x2 /= 256;
-  y1 /= 256;
-  y2 /= 256;
-  z1 /= 256;
-  z2 /= 256;
-*//*
-  Serial.print("X= ");
-  Serial.print(x1);
-  Serial.print(" Y= ");
-  Serial.print(y1);
-  Serial.print(" Z= ");
-  Serial.print(z1);
-  Serial.print("\n");
-
-  if(x1 > 255){
-    Serial.print("\n\n HELP! \n\n");
-  }
-  */
-  // conversion en int
- /*x_i_msb = static_cast<int>(x1);
-  x_i_lsb = static_cast<int>(x2);
-  y_i_msb = static_cast<int>(y1);
-  y_i_lsb = static_cast<int>(y2);
-  z_i_msb = static_cast<int>(z1);
-  z_i_lsb = static_cast<int>(z2);
-*/
   // envoie au serial port
   SLIPSerialWrite(x1);
   SLIPSerialWrite(x2);
@@ -96,9 +61,6 @@ void loop() {
 
   Serial.write(END);
   delay(2);
-}
-
-void sendToSerial(int x, int y, int z){
 }
 
 void calibration(){  
