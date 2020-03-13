@@ -19,7 +19,7 @@ void setup() {
 void loop() {
   int packetSize = 0;
   packetSize = SLIPSerialRead( slipPacket );
-  for (i=0 ; i < packetSize; i++) {
+  for (int i=0 ; i < packetSize; i++) {
     analogWrite(outPin, slipPacket[i]);
   }
 }
