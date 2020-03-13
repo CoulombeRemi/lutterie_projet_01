@@ -44,26 +44,6 @@ void setup() {
   Wire.endTransmission();
   delay(10);
   
-  /******************************/
-/*
-    // x
-  Wire.beginTransmission(SENSOR);
-  Wire.write(OFSX);
-  Wire.write(64);
-  Wire.endTransmission();
-  delay(10);
-  // y
-  Wire.beginTransmission(SENSOR);
-  Wire.write(OFSY);
-  Wire.write(69);
-  Wire.endTransmission();
-  delay(10);
-  // z
-  Wire.beginTransmission(SENSOR);
-  Wire.write(OFSZ);
-  Wire.write(4);
-  Wire.endTransmission();
-  delay(10);*/
   calibration();
 }
 void calibration(){  
@@ -101,12 +81,25 @@ void loop() {
   y2 = Wire.read();
   z1 = Wire.read();
   z2 = Wire.read();
-//******************
-/*  xx = (x1 | x2 << 8);
+  
+  //******** Test print**********
+  testPrint();
+  //******** Send Serial **********
+  //sendToSerial();
+ 
+  // control moteur
+  int packetSize = 0;
+  packetSize = SLIPSerialRead(slipPacket);
+  packetSize = SLIPSerialRead( slipPacket );
+  for (int i=0 ; i < packetSize; i++) {
+    analogWrite(outPin, slipPacket[i]);
+  }
+}
+
+void testPrint(){
+  xx = (x1 | x2 << 8);
   yy = (y1 | y2 << 8);
   zz = (z1 | z2 << 8);
-
-
   xx = Wire.read() | Wire.read()<<8;
   yy = Wire.read() | Wire.read()<<8;
   zz = Wire.read() | Wire.read()<<8;
@@ -114,19 +107,17 @@ void loop() {
   xx = xx/64;
   yy = yy/64;
   zz = zz/64;
-  
-
+ 
   roll = atan(yy / sqrt(pow(xx, 2) + pow(zz, 2))) * 180 / PI;
   pitch = atan(-1 * xx / sqrt(pow(yy, 2) + pow(zz, 2))) * 180 / PI;
   
   Serial.print("roll ");
   Serial.print(roll);
-  Serial.print(" pitch ");  
+  Serial.print(" pitch ");
   Serial.print(pitch);
   Serial.print("\n");
-
-*/
-  // envoie au serial port
+}
+void sendToSerial(){
   SLIPSerialWrite(x1);
   SLIPSerialWrite(x2);
   SLIPSerialWrite(y1);
@@ -135,16 +126,7 @@ void loop() {
   SLIPSerialWrite(z2);
   Serial.write(END);
   delay(2);
-  int packetSize = 0;
-  packetSize = SLIPSerialRead(slipPacket);
-
-  // control moteur
-  packetSize = SLIPSerialRead( slipPacket );
-  for (int i=0 ; i < packetSize; i++) {
-    analogWrite(outPin, slipPacket[i]);
-  }
 }
-
 void SLIPSerialWrite(int value){
   if(value == END){ 
     Serial.write(ESC);
