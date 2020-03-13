@@ -15,11 +15,41 @@ const int OFSZ = 0x20;
 float x_f, y_f, z_f; // variable output du sensor
 int x_i_msb, y_i_msb, z_i_msb, x_i_lsb, y_i_lsb, z_i_lsb;
 char x1, x2, y1, y2, z1, z2;
+float roll, pitch;
 
-int xx, xx2, xx3;
+int xx, yy, zz;
+
+//******Moteur***
+byte slipPacket[256];
+int speed; // 0- 255
+
+
+void calibration(){  
+  // x
+  Wire.beginTransmission(SENSOR);
+  Wire.write(OFSX);
+  Wire.write(64);
+  Wire.endTransmission();
+  delay(10);
+  // y
+  Wire.beginTransmission(SENSOR);
+  Wire.write(OFSY);
+  Wire.write(69);
+  Wire.endTransmission();
+  delay(10);
+  // z
+  Wire.beginTransmission(SENSOR);
+  Wire.write(OFSZ);
+  Wire.write(4);
+  Wire.endTransmission();
+  delay(10);
+}
 
 void setup() {
+  // Serial
   Serial.begin(115200);
+  pinMode(6, OUTPUT);
+  // I2C
   Wire.begin();
   Wire.beginTransmission(SENSOR); // on prend les infos du sensor
   Wire.write(POWER_CTL); // on dit a quel register on veut communiquer
@@ -33,7 +63,27 @@ void setup() {
   Wire.write(8); // le sensor s'allume
   Wire.endTransmission();
   delay(10);
-  //calibration();
+  
+  /******************************/
+
+    // x
+  Wire.beginTransmission(SENSOR);
+  Wire.write(OFSX);
+  Wire.write(64);
+  Wire.endTransmission();
+  delay(10);
+  // y
+  Wire.beginTransmission(SENSOR);
+  Wire.write(OFSY);
+  Wire.write(69);
+  Wire.endTransmission();
+  delay(10);
+  // z
+  Wire.beginTransmission(SENSOR);
+  Wire.write(OFSZ);
+  Wire.write(4);
+  Wire.endTransmission();
+  delay(10);
 }
 
 void loop() {
@@ -50,7 +100,31 @@ void loop() {
   y2 = Wire.read();
   z1 = Wire.read();
   z2 = Wire.read();
+//******************
+/*  xx = (x1 | x2 << 8);
+  yy = (y1 | y2 << 8);
+  zz = (z1 | z2 << 8);
 
+
+  xx = Wire.read() | Wire.read()<<8;
+  yy = Wire.read() | Wire.read()<<8;
+  zz = Wire.read() | Wire.read()<<8;
+  // divise par 64 pour plus de presision
+  xx = xx/64;
+  yy = yy/64;
+  zz = zz/64;
+  
+
+  roll = atan(yy / sqrt(pow(xx, 2) + pow(zz, 2))) * 180 / PI;
+  pitch = atan(-1 * xx / sqrt(pow(yy, 2) + pow(zz, 2))) * 180 / PI;
+  
+  Serial.print("roll ");
+  Serial.print(roll);
+  Serial.print(" pitch ");  
+  Serial.print(pitch);
+  Serial.print("\n");
+
+*/
   // envoie au serial port
   SLIPSerialWrite(x1);
   SLIPSerialWrite(x2);
@@ -58,35 +132,16 @@ void loop() {
   SLIPSerialWrite(y2);
   SLIPSerialWrite(z1);
   SLIPSerialWrite(z2);
-
   Serial.write(END);
   delay(2);
+  int packetSize = 0;
+  int i;
+  packetSize = SLIPSerialRead(slipPacket);
+
+  // control moteur
+  analogWrite(6, slipPacket);
 }
 
-void calibration(){  
-  // x
-  Wire.beginTransmission(SENSOR);
-  Wire.write(OFSX);
-  /*
-  z = raw data(valeur sans etre divise par 256) - 256
-  correction = -Round(z/4);
-  */
-  //Wire.write(correction);
-  Wire.endTransmission();
-  delay(10);
-  // y
-  Wire.beginTransmission(SENSOR);
-  Wire.write(OFSY);
-  //Wire.write(64);
-  Wire.endTransmission();
-  delay(10);
-  // z
-  Wire.beginTransmission(SENSOR);
-  Wire.write(OFSZ);
-  //Wire.write(13);
-  Wire.endTransmission();
-  delay(10);
-}
 void SLIPSerialWrite(int value){
   if(value == END){ 
     Serial.write(ESC);

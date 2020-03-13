@@ -1,11 +1,11 @@
-#N canvas 1096 77 745 546 12;
-#X obj 387 479 dac~;
-#X obj 381 453 *~;
-#X obj 413 453 *~;
-#X obj 458 413 line~;
-#X obj 461 368 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -258113
--4032 -4032 8516 1;
-#X msg 458 391 \$1 50;
+#N canvas 1056 131 745 546 12;
+#X obj 284 353 dac~;
+#X obj 278 327 *~;
+#X obj 310 327 *~;
+#X obj 355 287 line~;
+#X obj 358 242 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -258113
+-4032 -4032 0 1;
+#X msg 355 265 \$1 50;
 #N canvas 600 386 450 300 bandpass 0;
 #X obj 84 45 inlet~ input;
 #X obj 187 47 inlet frq;
@@ -15,35 +15,44 @@
 #X connect 0 0 4 0;
 #X connect 1 0 4 1;
 #X connect 4 0 3 0;
-#X restore 365 216 pd bandpass;
-#X obj 279 178 303~;
-#X floatatom 244 140 5 20 20000 2 Freq - -;
-#X floatatom 312 136 5 0 100 2 filter - -;
-#X obj 62 50 tgl 20 0 empty empty press_btn_1 25 7 0 12 -4034 -262144
+#X restore 230 288 pd bandpass;
+#X obj 102 245 303~;
+#X floatatom 89 222 5 20 20000 2 Freq - -;
+#X floatatom 127 223 5 0 100 2 filter - -;
+#X obj 43 103 tgl 20 0 empty empty press_btn_1 25 7 0 12 -4034 -262144
 -258113 0 1;
-#X obj 62 74 metro 150;
-#X obj 62 124 + 20;
-#X obj 62 98 random 100;
-#X floatatom 403 166 5 0 20000 0 - - -;
-#X floatatom 462 165 5 0 3 0 - - -;
-#X obj 76 336 hid_control;
-#X obj 76 317 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+#X obj 43 127 metro 150;
+#X obj 43 177 + 20;
+#X obj 43 151 random 100;
+#X floatatom 267 266 5 0 20000 0 - - -;
+#X floatatom 304 266 5 0 3 0 - - -;
+#X obj 262 97 hid_control;
+#X obj 262 78 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
-#X floatatom 45 367 5 0 0 0 - - -;
-#X floatatom 106 371 5 0 0 0 - - -;
-#X floatatom 169 371 5 0 0 0 - - -;
-#X obj 150 317 bng 15 250 50 0 empty empty devices_list 17 7 0 10 -262144
+#X floatatom 231 128 5 0 0 0 - - -;
+#X floatatom 292 132 5 0 0 0 - - -;
+#X floatatom 355 132 5 0 0 0 - - -;
+#X obj 336 78 bng 15 250 50 0 empty empty devices_list 17 7 0 10 -262144
 -1 -1;
-#X floatatom 113 284 5 0 50 1 device_num - -;
-#X obj 45 415 + 1;
-#X obj 45 391 / 2;
-#X obj 106 395 * 78;
-#X obj 62 20 receive start-stop;
-#X obj 169 393 * -1;
-#X obj 169 416 + 255;
-#X obj 169 439 / 255;
-#X obj 106 419 * -1;
-#X obj 106 443 + 19890;
+#X floatatom 299 45 5 0 50 1 device_num - -;
+#X obj 231 176 + 1;
+#X obj 231 152 / 2;
+#X obj 292 156 * 78;
+#X obj 43 73 receive start-stop;
+#X obj 355 154 * -1;
+#X obj 355 177 + 255;
+#X obj 355 200 / 255;
+#X obj 292 180 * -1;
+#X obj 292 204 + 19890;
+#X obj 48 362 arduino_serial_input;
+#X obj 48 343 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 116 343 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 185 343 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X floatatom 48 386 5 0 0 1 pitch - -;
+#X floatatom 185 386 5 0 0 1 roll - -;
 #X connect 1 0 0 0;
 #X connect 2 0 0 1;
 #X connect 3 0 1 1;
@@ -79,3 +88,8 @@
 #X connect 29 0 4 0;
 #X connect 30 0 31 0;
 #X connect 31 0 14 0;
+#X connect 32 0 36 0;
+#X connect 32 1 37 0;
+#X connect 33 0 32 0;
+#X connect 34 0 32 1;
+#X connect 35 0 32 2;
