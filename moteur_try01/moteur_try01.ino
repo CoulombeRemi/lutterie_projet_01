@@ -9,7 +9,7 @@ const byte ESC_ESC=221;
 const int outPin = 6;
 byte slipPacket[256];
 
-Thread sensorReadingThread = Thread();
+//Thread sensorReadingThread = Thread();
 
 void setup() {
   pinMode(outPin, OUTPUT);
@@ -19,7 +19,7 @@ void setup() {
 void loop() {
   int packetSize = 0;
   packetSize = SLIPSerialRead( slipPacket );
-  for (i=0 ; i < packetSize; i++) {
+  for (int i=0 ; i < packetSize; i++) {
     analogWrite(outPin, slipPacket[i]);
   }
 }

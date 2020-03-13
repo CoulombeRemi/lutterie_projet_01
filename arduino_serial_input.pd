@@ -1,4 +1,4 @@
-#N canvas 417 82 1103 742 12;
+#N canvas 541 56 1103 742 12;
 #X msg 33 50 devices;
 #X obj 33 174 mrpeach/slipdec;
 #N canvas 409 182 450 300 BS 0;
@@ -14,7 +14,7 @@
 #X connect 3 0 5 0;
 #X connect 5 0 0 1;
 #X restore 147 269 pd BS;
-#X msg 111 80 close;
+#X msg 196 76 close;
 #X obj 32 201 unpack f f f f f f;
 #X obj 33 146 comport \$1 115200;
 #X obj 177 172 print isValid;
@@ -81,14 +81,21 @@
 #X obj 60 643 outlet roll;
 #X obj 686 165 mrpeach/slipenc;
 #X obj 686 140 pack f;
-#X floatatom 686 111 5 0 255 2 0_-_255 - -;
+#X floatatom 686 111 5 0 255 0 - - -;
 #X text 293 116 INPUT;
 #X text 675 54 OUTPUT;
+#X obj 196 100 print;
+#X obj 108 76 print;
+#X msg 686 90 0;
+#X obj 686 72 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
 #X connect 0 0 5 0;
 #X connect 1 0 4 0;
 #X connect 1 1 6 0;
 #X connect 2 0 17 0;
 #X connect 3 0 5 0;
+#X connect 3 0 47 0;
+#X connect 3 0 50 0;
 #X connect 4 0 7 0;
 #X connect 4 1 7 1;
 #X connect 4 2 8 0;
@@ -99,6 +106,8 @@
 #X connect 7 0 11 0;
 #X connect 8 0 14 0;
 #X connect 9 0 5 0;
+#X connect 9 0 48 0;
+#X connect 9 0 50 0;
 #X connect 10 0 12 0;
 #X connect 10 0 36 0;
 #X connect 11 0 10 0;
@@ -137,3 +146,5 @@
 #X connect 42 0 5 0;
 #X connect 43 0 42 0;
 #X connect 44 0 43 0;
+#X connect 49 0 44 0;
+#X connect 50 0 49 0;

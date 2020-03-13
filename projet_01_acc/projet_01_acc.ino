@@ -16,34 +16,14 @@ float x_f, y_f, z_f; // variable output du sensor
 int x_i_msb, y_i_msb, z_i_msb, x_i_lsb, y_i_lsb, z_i_lsb;
 char x1, x2, y1, y2, z1, z2;
 float roll, pitch;
-
 int xx, yy, zz;
 
-//******Moteur***
+// Serial in for motor
+const int outPin = 6;
 byte slipPacket[256];
-int speed; // 0- 255
 
 
-void calibration(){  
-  // x
-  Wire.beginTransmission(SENSOR);
-  Wire.write(OFSX);
-  Wire.write(64);
-  Wire.endTransmission();
-  delay(10);
-  // y
-  Wire.beginTransmission(SENSOR);
-  Wire.write(OFSY);
-  Wire.write(69);
-  Wire.endTransmission();
-  delay(10);
-  // z
-  Wire.beginTransmission(SENSOR);
-  Wire.write(OFSZ);
-  Wire.write(4);
-  Wire.endTransmission();
-  delay(10);
-}
+
 
 void setup() {
   // Serial
@@ -65,8 +45,29 @@ void setup() {
   delay(10);
   
   /******************************/
-
+/*
     // x
+  Wire.beginTransmission(SENSOR);
+  Wire.write(OFSX);
+  Wire.write(64);
+  Wire.endTransmission();
+  delay(10);
+  // y
+  Wire.beginTransmission(SENSOR);
+  Wire.write(OFSY);
+  Wire.write(69);
+  Wire.endTransmission();
+  delay(10);
+  // z
+  Wire.beginTransmission(SENSOR);
+  Wire.write(OFSZ);
+  Wire.write(4);
+  Wire.endTransmission();
+  delay(10);*/
+  calibration();
+}
+void calibration(){  
+  // x
   Wire.beginTransmission(SENSOR);
   Wire.write(OFSX);
   Wire.write(64);
@@ -135,11 +136,13 @@ void loop() {
   Serial.write(END);
   delay(2);
   int packetSize = 0;
-  int i;
   packetSize = SLIPSerialRead(slipPacket);
 
   // control moteur
-  analogWrite(6, slipPacket);
+  packetSize = SLIPSerialRead( slipPacket );
+  for (int i=0 ; i < packetSize; i++) {
+    analogWrite(outPin, slipPacket[i]);
+  }
 }
 
 void SLIPSerialWrite(int value){
@@ -155,4 +158,34 @@ void SLIPSerialWrite(int value){
     Serial.write(value);
     return;
   }
+}
+int SLIPSerialRead(byte * slipPacket){
+  int packetIndex = 0;
+  boolean escape = false;
+  boolean packetComplete = false;
+  if(Serial.available() == 0){
+    return 0;
+  }
+  while(!packetComplete){
+    if(Serial.available()>0){
+      byte b = Serial.read();
+      if(escape){
+        if(b == ESC_END){
+          slipPacket[packetIndex] = END;
+        }else if(b == ESC_ESC){
+          slipPacket[packetIndex] = ESC;
+        }
+        packetIndex++;
+        escape = 0;
+      }else if(b == END){
+        packetComplete = true;
+      }else if(b == ESC){
+        escape = 1;
+      }else{
+        slipPacket[packetIndex] = b;
+        packetIndex++;
+      }
+    }
+  }
+  return packetIndex;
 }
