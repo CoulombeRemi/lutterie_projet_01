@@ -1,5 +1,6 @@
 
 #include <Wire.h>
+#include <Servo.h>
 const int END = 192;
 const int ESC = 219; 
 const int ESC_END = 220;
@@ -16,13 +17,14 @@ float x_f, y_f, z_f; // variable output du sensor
 int x_i_msb, y_i_msb, z_i_msb, x_i_lsb, y_i_lsb, z_i_lsb;
 char x1, x2, y1, y2, z1, z2;
 float roll, pitch;
-int xx, yy, zz;
+int xx, yy, zz, servoX;
 
 // Serial in for motor
 const int outPin = 6;
 byte slipPacket[256];
-
-
+// servo
+Servo moteur;
+int posMoteur = 0; // center
 
 
 void setup() {
@@ -33,24 +35,25 @@ void setup() {
   Wire.begin();
   Wire.beginTransmission(SENSOR); // on prend les infos du sensor
   Wire.write(POWER_CTL); // on dit a quel register on veut communiquer
-  /*
-  on met 8 pour acceder a D3 
-  8 ==  0  0  0  0  1  0  0  0 (binaire)
-        D7 D6 D5 D4 D3 D2 D1 D0 
-   1 = enable
-   0 = disable
-  */
+  //on met 8 pour acceder a D3 
   Wire.write(8); // le sensor s'allume
   Wire.endTransmission();
   delay(10);
   
   calibration();
+
+  // servo init pin
+  moteur.attach(9);
 }
-void calibration(){  
+void calibration(){
+  /*
+  value - 256 = i
+  correction = -round(i/4)
+  */  
   // x
   Wire.beginTransmission(SENSOR);
   Wire.write(OFSX);
-  Wire.write(64);
+  Wire.write(-5);
   Wire.endTransmission();
   delay(10);
   // y
@@ -62,7 +65,7 @@ void calibration(){
   // z
   Wire.beginTransmission(SENSOR);
   Wire.write(OFSZ);
-  Wire.write(4);
+  Wire.write(64);
   Wire.endTransmission();
   delay(10);
 }
@@ -83,9 +86,9 @@ void loop() {
   z2 = Wire.read();
   
   //******** Test print**********
-  testPrint();
+  //testPrint();
   //******** Send Serial **********
-  //sendToSerial();
+  sendToSerial();
  
   // control moteur
   int packetSize = 0;
@@ -94,29 +97,40 @@ void loop() {
   for (int i=0 ; i < packetSize; i++) {
     analogWrite(outPin, slipPacket[i]);
   }
+  // control servo
+  servoX = x1|x2<<8;
+  //posMoteur = 0;
+  posMoteur = map(servoX, -255, 255, 0, 180);
+  moteur.write(posMoteur);
 }
 
+/*----------------------------------*/
 void testPrint(){
   xx = (x1 | x2 << 8);
   yy = (y1 | y2 << 8);
   zz = (z1 | z2 << 8);
-  xx = Wire.read() | Wire.read()<<8;
-  yy = Wire.read() | Wire.read()<<8;
-  zz = Wire.read() | Wire.read()<<8;
-  // divise par 64 pour plus de presision
+/*
   xx = xx/64;
   yy = yy/64;
   zz = zz/64;
- 
+  */
+  Serial.print("x ");
+  Serial.print(xx);
+  Serial.print(" y ");
+  Serial.print(yy);
+  Serial.print(" z ");
+  Serial.print(zz);
+  Serial.print("\n");
   roll = atan(yy / sqrt(pow(xx, 2) + pow(zz, 2))) * 180 / PI;
   pitch = atan(-1 * xx / sqrt(pow(yy, 2) + pow(zz, 2))) * 180 / PI;
-  
-  Serial.print("roll ");
+ /* Serial.print("roll ");
   Serial.print(roll);
   Serial.print(" pitch ");
   Serial.print(pitch);
-  Serial.print("\n");
+  Serial.print("\n");*/
 }
+
+/*----------------------------------*/
 void sendToSerial(){
   SLIPSerialWrite(x1);
   SLIPSerialWrite(x2);
@@ -141,6 +155,9 @@ void SLIPSerialWrite(int value){
     return;
   }
 }
+
+// pour moteur
+
 int SLIPSerialRead(byte * slipPacket){
   int packetIndex = 0;
   boolean escape = false;

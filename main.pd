@@ -4,7 +4,7 @@
 #X obj 310 327 *~;
 #X obj 355 297 line~;
 #X obj 358 252 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -258113
--4032 -4032 12700 1;
+-4032 -4032 3436 1;
 #X msg 355 275 \$1 50;
 #N canvas 600 386 450 300 bandpass 0;
 #X obj 84 45 inlet~ input;
@@ -48,7 +48,9 @@
 #X obj 262 429 r moteur;
 #X msg 34 429 devices;
 #X msg 110 429 open;
-#X msg 186 429 close;
+#X obj 186 428 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X text 182 410 close;
 #X connect 1 0 0 0;
 #X connect 2 0 0 1;
 #X connect 3 0 1 1;

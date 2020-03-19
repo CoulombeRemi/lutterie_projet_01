@@ -1,4 +1,4 @@
-#N canvas 91 78 787 752 12;
+#N canvas 528 57 787 881 12;
 #X msg 33 63 devices;
 #X obj 33 174 mrpeach/slipdec;
 #N canvas 409 182 450 300 BS 0;
@@ -67,7 +67,7 @@
 #X obj 134 40 inlet open;
 #X obj 255 27 inlet close;
 #X obj 28 592 outlet pitch;
-#X obj 240 667 outlet roll;
+#X obj 221 722 outlet roll;
 #X obj 641 155 mrpeach/slipenc;
 #X obj 641 131 pack f;
 #X floatatom 641 109 5 0 255 0 - - -;
@@ -95,9 +95,14 @@
 #X floatatom 58 560 5 0 0 0 - - -;
 #X obj 177 676 / 256;
 #X floatatom 177 700 5 0 0 0 - - -;
+#X text 140 515 gauche-droite;
+#X text 323 648 avant arriere;
+#X floatatom 235 692 5 0 0 0 - - -;
+#X obj 235 668 - 26;
+#X obj 131 372 - 1.99;
+#X obj 82 374 - 1;
 #X connect 0 0 5 0;
 #X connect 1 0 4 0;
-#X connect 1 1 6 0;
 #X connect 2 0 14 0;
 #X connect 3 0 38 0;
 #X connect 3 0 5 0;
@@ -124,14 +129,12 @@
 #X connect 16 0 10 1;
 #X connect 17 0 24 0;
 #X connect 17 0 23 0;
-#X connect 18 0 27 0;
-#X connect 18 0 20 0;
-#X connect 19 0 25 0;
-#X connect 19 0 21 0;
+#X connect 18 0 61 0;
+#X connect 19 0 60 0;
 #X connect 20 0 51 0;
 #X connect 21 0 51 2;
-#X connect 22 0 32 0;
 #X connect 22 0 54 0;
+#X connect 22 0 59 0;
 #X connect 23 0 51 1;
 #X connect 24 0 47 0;
 #X connect 25 0 47 2;
@@ -159,3 +162,9 @@
 #X connect 51 0 22 0;
 #X connect 52 0 53 0;
 #X connect 54 0 55 0;
+#X connect 59 0 58 0;
+#X connect 59 0 32 0;
+#X connect 60 0 25 0;
+#X connect 60 0 21 0;
+#X connect 61 0 27 0;
+#X connect 61 0 20 0;
