@@ -1,10 +1,10 @@
-#N canvas 1122 114 745 546 12;
+#N canvas 980 234 745 546 12;
 #X obj 284 353 dac~;
 #X obj 278 327 *~;
 #X obj 310 327 *~;
 #X obj 355 297 line~;
 #X obj 358 252 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -258113
--4032 -4032 3436 1;
+-4032 -4032 11500 1;
 #X msg 355 275 \$1 50;
 #N canvas 600 386 450 300 bandpass 0;
 #X obj 84 45 inlet~ input;
@@ -51,6 +51,15 @@
 #X obj 186 428 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
 #X text 182 410 close;
+#X obj 503 381 sig~;
+#X floatatom 503 358 5 30 250 0 - - -;
+#X obj 463 498 *~ 0.2;
+#X obj 502 409 phasor~;
+#X obj 464 470 lop~;
+#X floatatom 582 428 5 0 0 0 - - -;
+#X obj 464 408 osc~;
+#X obj 502 433 *~ 0.5;
+#X msg 502 334 0;
 #X connect 1 0 0 0;
 #X connect 2 0 0 1;
 #X connect 3 0 1 1;
@@ -86,7 +95,20 @@
 #X connect 28 0 14 0;
 #X connect 29 0 30 0;
 #X connect 29 1 31 0;
+#X connect 30 0 43 0;
+#X connect 31 0 39 0;
 #X connect 33 0 29 3;
 #X connect 34 0 29 0;
 #X connect 35 0 29 1;
 #X connect 36 0 29 2;
+#X connect 38 0 41 0;
+#X connect 38 0 44 0;
+#X connect 39 0 38 0;
+#X connect 40 0 1 0;
+#X connect 40 0 2 0;
+#X connect 41 0 45 0;
+#X connect 42 0 40 0;
+#X connect 43 0 42 1;
+#X connect 44 0 42 0;
+#X connect 45 0 42 0;
+#X connect 46 0 39 0;

@@ -1,4 +1,4 @@
-#N canvas 528 57 787 881 12;
+#N canvas 616 65 787 881 12;
 #X msg 33 63 devices;
 #X obj 33 174 mrpeach/slipdec;
 #N canvas 409 182 450 300 BS 0;
@@ -101,6 +101,8 @@
 #X obj 235 668 - 26;
 #X obj 131 372 - 1.99;
 #X obj 82 374 - 1;
+#X text 630 15 for DC motor;
+#X text 632 31 not usefull rn;
 #X connect 0 0 5 0;
 #X connect 1 0 4 0;
 #X connect 2 0 14 0;
