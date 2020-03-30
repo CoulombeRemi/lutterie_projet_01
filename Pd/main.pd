@@ -1,10 +1,10 @@
-#N canvas 790 35 1035 664 12;
+#N canvas -8 -8 1920 1007 12;
 #X obj 284 353 dac~;
 #X obj 278 327 *~;
 #X obj 310 327 *~;
 #X obj 355 297 line~;
 #X obj 358 252 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -258113
--4032 -4032 4134 1;
+-4032 -4032 3685 1;
 #X msg 355 275 \$1 50;
 #N canvas 600 386 450 300 bandpass 0;
 #X obj 84 45 inlet~ input;

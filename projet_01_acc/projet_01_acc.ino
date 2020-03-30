@@ -41,9 +41,10 @@ void setup() {
  
   // calibration
     // x 
+    /*
   Wire.beginTransmission(SENSOR);
   Wire.write(OFSX);
-  Wire.write(20);
+  Wire.write(-3);
   Wire.endTransmission();
   delay(10);
     // y
@@ -56,8 +57,8 @@ void setup() {
   Wire.beginTransmission(SENSOR);
   Wire.write(OFSZ);
   Wire.write(8);
-  Wire.endTransmission();
-  delay(37);
+  Wire.endTransmission();*/
+  delay(10);
 
   // servo init pin
   moteur.attach(9);
@@ -83,9 +84,12 @@ void loop() {
   //******** Send Serial **********
   sendToSerial();
 
-  int posi = (x-100)*5;
-  posMoteur = map(posi, -255, 255, 0, 180);
+  //int posi = (x-100)*2;
+  int posi = x;
+  posMoteur = map(posi, -100, 100, 0, 180);
   moteur.write(posMoteur);
+  Serial.print(posi);
+  Serial.print("\n");
 }
 
 /*----------------------------------*/
@@ -94,8 +98,10 @@ void testPrint(){
   float ax = x/256;
   float ay = y/256;
   float az = z/256;
-  
-  Serial.print("x ");
+
+  Serial.print("xxxx ");
+  Serial.print(x);
+  Serial.print(" x ");
   Serial.print(ax);
   Serial.print(" y ");
   Serial.print(ay);
