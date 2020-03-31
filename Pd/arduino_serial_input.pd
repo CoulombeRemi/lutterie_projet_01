@@ -1,4 +1,4 @@
-#N canvas 697 76 1109 872 12;
+#N canvas 994 108 717 872 12;
 #X msg 32 112 devices;
 #X obj 32 195 mrpeach/slipdec;
 #X msg 255 138 close;
@@ -44,7 +44,7 @@
 #X connect 3 0 0 1;
 #X connect 5 0 0 0;
 #X restore 82 246 pd BS1;
-#N canvas 1232 189 450 481 BS1 0;
+#N canvas 273 265 450 481 BS1 0;
 #X obj 195 241 |;
 #X floatatom 195 265 5 0 0 0 - - -;
 #X obj 143 153 inlet _1;
@@ -57,9 +57,9 @@
 #X connect 3 0 0 1;
 #X connect 5 0 0 0;
 #X restore 137 246 pd BS1;
-#X obj 32 269 2comp;
-#X obj 82 270 2comp;
-#X obj 137 269 2comp;
+#X obj 32 285 2comp;
+#X obj 82 286 2comp;
+#X obj 137 285 2comp;
 #N canvas 409 182 450 300 BS 0;
 #X obj 194 200 |;
 #X floatatom 194 224 5 0 0 0 - - -;
@@ -78,6 +78,8 @@
 #X text 627 305 ROLL;
 #X text 56 325 PITCH;
 #X text 383 41 INPUT SERIAL;
+#X msg 212 234 16;
+#X obj 212 211 loadbang;
 #X connect 0 0 18 0;
 #X connect 1 0 3 0;
 #X connect 2 0 10 0;
@@ -109,3 +111,7 @@
 #X connect 24 0 15 2;
 #X connect 26 0 8 0;
 #X connect 27 0 9 0;
+#X connect 31 0 24 1;
+#X connect 31 0 23 1;
+#X connect 31 0 22 1;
+#X connect 32 0 31 0;
