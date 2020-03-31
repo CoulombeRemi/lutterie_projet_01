@@ -34,7 +34,6 @@ void setup() {
   delay(10);
   // calibration
     // x 
-    /*
   Wire.beginTransmission(SENSOR);
   Wire.write(OFSX);
   Wire.write(-3);
@@ -50,7 +49,7 @@ void setup() {
   Wire.beginTransmission(SENSOR);
   Wire.write(OFSZ);
   Wire.write(8);
-  Wire.endTransmission();*/
+  Wire.endTransmission();
   delay(10);
 
   // servo init pin
