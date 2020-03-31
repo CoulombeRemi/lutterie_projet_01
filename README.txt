@@ -5,4 +5,4 @@ puredata --> prend en input les valeurs du joystick	 (HID)
 		comport (pour recevoir le serial de arduino)
 		mrpeach
 		cyclone
-arduino --> prend en input les valeurs de l'accelerometre(I2c)
+arduino --> prend en input les valeurs de l'accelerometre(I2c) et send a Pd avec serial

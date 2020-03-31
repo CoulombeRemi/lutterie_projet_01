@@ -1,29 +1,24 @@
 
 #include <Wire.h>
 #include <Servo.h>
+// serial
 const int END = 192;
 const int ESC = 219; 
 const int ESC_END = 220;
 const int ESC_ESC = 221;
-
-const int SENSOR = 0x53; // adress du sensor
-const int POWER_CTL = 0x2D; // adress du register
-const int XAXIS = 0x32; // adress du data X-axis
-const int OFSX = 0x1E; // valeur ofset pour calibration
+// sensor
+const int SENSOR = 0x53; // adresse du sensor
+const int POWER_CTL = 0x2D; // adresse du register
+const int XAXIS = 0x32; // adresse du data X-axis
+const int OFSX = 0x1E; // valeurs ofset pour calibration
 const int OFSY = 0x1F;
 const int OFSZ = 0x20;
-
 char x, y, z;
 float roll, pitch;
-int servoX;
-
-// Serial in for motor
-const int outPin = 6;
-byte slipPacket[256];
 // servo
 Servo moteur;
+const int servoPin = 9;
 int posMoteur = 0; // center
-
 
 void setup() {
   // Serial
@@ -37,8 +32,6 @@ void setup() {
   Wire.write(8); // le sensor s'allume
   Wire.endTransmission();
   delay(10);
-
- 
   // calibration
     // x 
     /*
@@ -61,7 +54,7 @@ void setup() {
   delay(10);
 
   // servo init pin
-  moteur.attach(9);
+  moteur.attach(servoPin);
 }
 
 void loop() {
@@ -72,19 +65,18 @@ void loop() {
   Wire.requestFrom(SENSOR, 6, true); 
   // i2c : MSB first
   // output en two's complement
-
   x = (Wire.read() | Wire.read()<<8);
   y = (Wire.read() | Wire.read()<<8);
   z = (Wire.read() | Wire.read()<<8);
-
-  roll = atan(y / sqrt(pow(x, 2) + pow(z, 2))) * 180 / PI;
-  pitch = atan(-1 * x / sqrt(pow(y, 2) + pow(z, 2))) * 180 / PI;
-  //******** Test print**********
+  //roll = atan(y / sqrt(pow(x, 2) + pow(z, 2))) * 180 / PI;
+  //pitch = atan(-1 * x / sqrt(pow(y, 2) + pow(z, 2))) * 180 / PI;
+  
+  /********  Test print  **********/
   //testPrint();
-  //******** Send Serial **********
+  /********  Send Serial **********/
   sendToSerial();
 
-  //int posi = (x-100)*2;
+  // servo ctrl
   int posi = x;
   posMoteur = map(posi, -100, 100, 0, 180);
   moteur.write(posMoteur);
@@ -92,9 +84,8 @@ void loop() {
   Serial.print("\n");
 }
 
-/*----------------------------------*/
+// test print, remove before sending to serial
 void testPrint(){
-
   float ax = x/256;
   float ay = y/256;
   float az = z/256;
@@ -109,8 +100,7 @@ void testPrint(){
   Serial.print(az);
   Serial.print("\n");
 }
-
-/*----------------------------------*/
+// send serial
 void sendToSerial(){
   // x
   SLIPSerialWrite(x>>8);
@@ -121,10 +111,10 @@ void sendToSerial(){
   // z
   SLIPSerialWrite(z>>8);
   SLIPSerialWrite(z&255);
-
   Serial.write(END);
   delay(3);
 }
+// verify serial data
 void SLIPSerialWrite(int value){
   if(value == END){ 
     Serial.write(ESC);

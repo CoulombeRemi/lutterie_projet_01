@@ -1,8 +1,8 @@
-#N canvas 813 105 604 693 12;
+#N canvas 733 98 604 693 12;
 #X obj 56 239 * -1;
 #X obj 156 274 +;
-#X obj 56 157 inlet value;
-#X obj 156 321 outlet;
+#X obj 56 194 inlet value;
+#X obj 156 299 outlet;
 #X obj 174 217 expr $f1 & ~32768;
 #X obj 56 217 expr $f1 & 32768;
 #X text 114 107 two's complement with 16bits;
